@@ -1,0 +1,1207 @@
+{
+  "name": "Week 8 Project: Automated Weekly Newsletter Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                5
+              ],
+              "triggerAtHour": 14
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        752
+      ],
+      "id": "4b9d822a-a003-4831-b75c-647437537754",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://techcabal.com/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        224,
+        -64
+      ],
+      "id": "3b4daef2-6764-490d-910c-ca03e9f88cf2",
+      "name": "HTTP Request-TechCabal"
+    },
+    {
+      "parameters": {
+        "url": "https://www.businessdailyafrica.com/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        224,
+        352
+      ],
+      "id": "dbf25bbf-8419-4abe-84ae-11ff1efe4a6f",
+      "name": "HTTP Request-Business Daily"
+    },
+    {
+      "parameters": {
+        "url": "https://www.the-star.co.ke/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        224,
+        752
+      ],
+      "id": "9347b5f9-53a0-444d-bac7-d33a54ea694a",
+      "name": "HTTP Request-The Star"
+    },
+    {
+      "parameters": {
+        "url": "https://www.standardmedia.co.ke/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        224,
+        1152
+      ],
+      "id": "f93be85d-e196-41fb-93c2-118d0aa06220",
+      "name": "HTTP Request-Standard"
+    },
+    {
+      "parameters": {
+        "url": "https://kenyanwallstreet.com/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        224,
+        1552
+      ],
+      "id": "6b293c39-b402-44e3-a191-3ca78677b112",
+      "name": "HTTP Request-Kenyan WallStreet"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $now }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        64
+      ],
+      "id": "1e538beb-365d-43e3-aa9a-028c874fb1b3",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"source\": {\n    \"type\": \"string\"\n  },\n  \"headline\": {\n    \"type\": \"string\"\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        64
+      ],
+      "id": "e0a984e0-c822-4931-a9f0-6f8c5e96ff0b",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": "mistral-small-latest",
+        "options": {
+          "maxTokens": 600,
+          "temperature": 0.1,
+          "maxRetries": 2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        672,
+        64
+      ],
+      "id": "376cff6e-68cd-4161-b488-b3ddf01eb0c1",
+      "name": "Mistral Cloud Chat Model",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "zKILB7wAHtzdue9v",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        672,
+        464
+      ],
+      "id": "0adb2ace-eaa1-4149-9213-a29a91711e74",
+      "name": "Mistral Cloud Chat Model2",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "zKILB7wAHtzdue9v",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $now }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        464
+      ],
+      "id": "4dc1a490-43ec-4f11-8f55-5a21b8f9bafd",
+      "name": "Simple Memory2"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"source\": {\n    \"type\": \"string\"\n  },\n  \"headline\": {\n    \"type\": \"string\"\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        464
+      ],
+      "id": "2235f0f9-cde8-4c5f-a2b9-f01144a35ad0",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "model": "mistral-small-latest",
+        "options": {
+          "maxTokens": 600,
+          "temperature": 0.1,
+          "maxRetries": 2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        672,
+        864
+      ],
+      "id": "5dbf553e-3662-4b02-a56a-4023ec47efed",
+      "name": "Mistral Cloud Chat Model1",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "zKILB7wAHtzdue9v",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"source\": {\n    \"type\": \"string\"\n  },\n  \"headline\": {\n    \"type\": \"string\"\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        864
+      ],
+      "id": "0edfd1fb-acd2-431c-b6c3-8f78c21c3c55",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $now }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        864
+      ],
+      "id": "7bac837b-4d1f-49b4-8f8c-880c016e83ff",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"source\": {\n    \"type\": \"string\"\n  },\n  \"headline\": {\n    \"type\": \"string\"\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        1264
+      ],
+      "id": "96f7f482-258b-4000-a784-40354b409520",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {
+        "model": "mistral-small-latest",
+        "options": {
+          "maxTokens": 600,
+          "temperature": 0.1,
+          "maxRetries": 2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        672,
+        1264
+      ],
+      "id": "ea479d82-36e2-4aef-90a4-496604c66c8b",
+      "name": "Mistral Cloud Chat Model3",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "zKILB7wAHtzdue9v",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $now }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        1264
+      ],
+      "id": "0fb917c7-852c-480f-91c1-b272478a2189",
+      "name": "Simple Memory3"
+    },
+    {
+      "parameters": {
+        "model": "mistral-small-latest",
+        "options": {
+          "maxTokens": 600,
+          "temperature": 0.1,
+          "maxRetries": 2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        672,
+        1776
+      ],
+      "id": "8ebf9eb7-642a-406c-888a-00ec07834f02",
+      "name": "Mistral Cloud Chat Model4",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "zKILB7wAHtzdue9v",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"source\": {\n    \"type\": \"string\"\n  },\n  \"headline\": {\n    \"type\": \"string\"\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        1776
+      ],
+      "id": "78903d58-f53f-4566-807d-9b6bfeab5c51",
+      "name": "Structured Output Parser4"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $now }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        1776
+      ],
+      "id": "0f0b2f93-558d-4840-a4e1-a3bceb36dad1",
+      "name": "Simple Memory4"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a Field Reporter. Extract the single most important tech or business headline from the raw HTML below. Respond ONLY with valid JSON: {\"source\": \"TechCabal\", \"headline\": \"Your headline here\"}. Change the source value to match the publication. Raw content: {{ $json.data }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        736,
+        -160
+      ],
+      "id": "1edc8a18-2af5-46a3-83c2-5ed4aee2766e",
+      "name": "Summarize TechCabal"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a Field Reporter. Extract the single most important tech or business headline from the raw HTML below. Respond ONLY with valid JSON: {\"source\": \"Business Daily\", \"headline\": \"Your headline here\"}. Change the source value to match the publication. Raw content: {{ $json.data }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        736,
+        240
+      ],
+      "id": "c08be07d-a8b3-448e-921e-eb77793e95e3",
+      "name": "Summarize Business Daily"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a Field Reporter. Extract the single most important tech or business headline from the raw HTML below. Respond ONLY with valid JSON: {\"source\": \"The Star\", \"headline\": \"Your headline here\"}. Change the source value to match the publication. Raw content:{{ $json.data }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        736,
+        640
+      ],
+      "id": "91783719-e5bd-49f6-974c-842b4324cf49",
+      "name": "Summarize The Star"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a Field Reporter. Extract the single most important tech or business headline from the raw HTML below. Respond ONLY with valid JSON: {\"source\": \"Standard\", \"headline\": \"Your headline here\"}. Change the source value to match the publication. Raw content: {{ $json.data }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        736,
+        1040
+      ],
+      "id": "9417bb92-0917-439c-9092-d62f4631f8b5",
+      "name": "Summarize Standard"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a Field Reporter. Extract the single most important tech or business headline from the raw HTML below. Respond ONLY with valid JSON: {\"source\": \"Kenyan Wall Street\", \"headline\": \"Your headline here\"}. Change the source value to match the publication. Raw content: {{ $json.data }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        736,
+        1552
+      ],
+      "id": "f536f67a-44a5-4fc1-89f3-a40b90760bdc",
+      "name": "Summarize Kenyan WallStreet"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.data || '';\n\n// Strip all HTML tags and collapse whitespace\nconst text = raw\n  .replace(/<script[\\s\\S]*?<\\/script>/gi, '')\n  .replace(/<style[\\s\\S]*?<\\/style>/gi, '')\n  .replace(/<[^>]+>/g, ' ')\n  .replace(/\\s+/g, ' ')\n  .trim()\n  .slice(0, 2000); // only first 2000 characters\n\nreturn [{\n  json: {\n    source: $input.first().json.source,\n    url: $input.first().json.url,\n    data: text\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        1152
+      ],
+      "id": "2887adad-6044-4ec8-a2f2-e96dd614a335",
+      "name": "Trim HTM-Standard"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.data || '';\n\n// Strip all HTML tags and collapse whitespace\nconst text = raw\n  .replace(/<script[\\s\\S]*?<\\/script>/gi, '')\n  .replace(/<style[\\s\\S]*?<\\/style>/gi, '')\n  .replace(/<[^>]+>/g, ' ')\n  .replace(/\\s+/g, ' ')\n  .trim()\n  .slice(0, 2000); // only first 2000 characters\n\nreturn [{\n  json: {\n    source: $input.first().json.source,\n    url: $input.first().json.url,\n    data: text\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        752
+      ],
+      "id": "bf9cfe91-6c68-47e7-8fc3-c47836392a65",
+      "name": "Trim HTML-The Star"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.data || '';\n\n// Strip all HTML tags and collapse whitespace\nconst text = raw\n  .replace(/<script[\\s\\S]*?<\\/script>/gi, '')\n  .replace(/<style[\\s\\S]*?<\\/style>/gi, '')\n  .replace(/<[^>]+>/g, ' ')\n  .replace(/\\s+/g, ' ')\n  .trim()\n  .slice(0, 2000); // only first 2000 characters\n\nreturn [{\n  json: {\n    source: $input.first().json.source,\n    url: $input.first().json.url,\n    data: text\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        352
+      ],
+      "id": "5f1ad4b8-da79-465d-a0cf-c46b139ed759",
+      "name": "Trim HTML-Business Daily"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.data || '';\n\n// Strip all HTML tags and collapse whitespace\nconst text = raw\n  .replace(/<script[\\s\\S]*?<\\/script>/gi, '')\n  .replace(/<style[\\s\\S]*?<\\/style>/gi, '')\n  .replace(/<[^>]+>/g, ' ')\n  .replace(/\\s+/g, ' ')\n  .trim()\n  .slice(0, 2000); // only first 2000 characters\n\nreturn [{\n  json: {\n    source: $input.first().json.source,\n    url: $input.first().json.url,\n    data: text\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        -64
+      ],
+      "id": "860816fd-b01d-4162-a898-d04ebf6d1383",
+      "name": "Trim HTML-TechCabal"
+    },
+    {
+      "parameters": {
+        "numberInputs": 5
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1248,
+        704
+      ],
+      "id": "b843739a-1b05-40ae-9eae-12f17f9d97e5",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.data || '';\n\n// Strip all HTML tags and collapse whitespace\nconst text = raw\n  .replace(/<script[\\s\\S]*?<\\/script>/gi, '')\n  .replace(/<style[\\s\\S]*?<\\/style>/gi, '')\n  .replace(/<[^>]+>/g, ' ')\n  .replace(/\\s+/g, ' ')\n  .trim()\n  .slice(0, 2000); // only first 2000 characters\n\nreturn [{\n  json: {\n    source: $input.first().json.source,\n    url: $input.first().json.url,\n    data: text\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        1552
+      ],
+      "id": "ee7a83c2-8dd7-4837-9527-7f369216dc79",
+      "name": "Trim HTML-KWS"
+    },
+    {
+      "parameters": {
+        "model": "mistral-large-latest",
+        "options": {
+          "maxTokens": 2000,
+          "temperature": 0.5,
+          "maxRetries": 3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        976
+      ],
+      "id": "9456a806-dcdb-478a-9a46-e3c489e98c55",
+      "name": "Mistral Cloud Chat Model5",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "zKILB7wAHtzdue9v",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"newsletter_intro\": {\n      \"type\": \"string\",\n      \"description\": \"Full Markdown newsletter intro under 200 words\"\n    },\n    \"word_count\": {\n      \"type\": \"number\",\n      \"description\": \"Must be strictly under 200\"\n    },\n    \"sources_used\": {\n      \"type\": \"array\",\n      \"items\": { \"type\": \"string\" },\n      \"description\": \"Publication names referenced\"\n    },\n    \"slang_used\": {\n      \"type\": \"array\",\n      \"items\": { \"type\": \"string\" },\n      \"description\": \"Kenyan slang terms used\"\n    },\n    \"model\": {\n      \"type\": \"string\",\n      \"description\": \"Model used to generate\"\n    },\n    \"generated_at\": {\n      \"type\": \"string\",\n      \"description\": \"ISO 8601 timestamp\"\n    }\n  },\n  \"required\": [\n    \"newsletter_intro\",\n    \"word_count\",\n    \"sources_used\",\n    \"model\",\n    \"generated_at\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1744,
+        976
+      ],
+      "id": "572f16a3-9774-43c8-a109-5b804e9ef453",
+      "name": "Structured Output Parser5"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $now }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1616,
+        976
+      ],
+      "id": "d5959d9e-0466-47ed-864c-afc884a0d162",
+      "name": "Simple Memory5"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are Kamau, the Witty Tech Editor of Nairobi Daily, \nKenya's sharpest tech newsletter.\n\nYour field reporters have submitted today's top headlines:\n{{ $json.output.headline }}\n\nWrite the newsletter intro following these strict rules:\n1. Strictly under 200 words\n2. Use Kenyan slang naturally \n   (Bazeng!, Form ni gani?, Sawa sawa, Hii ni kubwa, Si mchezo)\n3. Format as Markdown with a heading and 1-2 paragraphs\n4. Reference the actual source publications by name\n5. Be warm, witty and locally relevant\n\nReturn ONLY valid JSON:\n{\n  \"newsletter_intro\": \"your markdown intro here\",\n  \"word_count\": 145,\n  \"sources_used\": [\"TechCabal\", \"Business Daily\"],\n  \"slang_used\": [\"Bazeng!\", \"Sawa sawa\"],\n  \"model\": \"mistral-large-latest\",\n  \"generated_at\": \"{{ $now.toISO() }}\"\n}",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1456,
+        752
+      ],
+      "id": "2d9bb1a2-b6ab-4b50-b7e7-6a5a85d72c00",
+      "name": "Chief Editor"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "Markmuinde78@gmail.com",
+        "subject": "=Approve Newsletter Draft — {{ $now.format('DD MMM YYYY') }}",
+        "message": "=Hi Kamau,\n\nHere is this week's newsletter draft for your approval.\n\n{{ $json.output.newsletter_intro }}\n\nWord count: {{ $json.output.word_count }}\nSources used: {{ $json.output.sources_used }}\n\nClick below to approve and send to the marketing team:\n{{ $execution.resumeUrl }}\n\nThis link expires in 24 hours.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1952,
+        752
+      ],
+      "id": "a54b88d5-6c9e-4ebf-a9c1-bb9f5c9f38d4",
+      "name": "Approval by Tech Editor",
+      "webhookId": "8920cb60-892e-4b7b-854f-c341ad9e4770",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "jx21msO9A4kXTldt",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ixyODA3O_4uaeby5jcPiu7R0vci35evYc8L7kT7mejo",
+          "mode": "list",
+          "cachedResultName": "NewsletterManager",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ixyODA3O_4uaeby5jcPiu7R0vci35evYc8L7kT7mejo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Drafts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ixyODA3O_4uaeby5jcPiu7R0vci35evYc8L7kT7mejo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now }}",
+            "Succesful Sources": "={{ $('Merge').all().length }}/5 sources",
+            "Draft Body": "={{ $('Chief Editor').item.json.output.newsletter_intro }}",
+            "Model Used": "={{ $('Chief Editor').item.json.output.model }}"
+          },
+          "matchingColumns": [
+            "Date"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Succesful Sources",
+              "displayName": "Succesful Sources",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Draft Body",
+              "displayName": "Draft Body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Model Used",
+              "displayName": "Model Used",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2176,
+        752
+      ],
+      "id": "6f5c8fa4-161d-4944-9e62-0a5ed8ff8ddf",
+      "name": "Log Approved Draft",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TeTxzgKa8FiATXyA",
+          "name": "Google Sheets account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "Markmuinde78@gmail.com",
+        "subject": "= Nairobi Daily Weekly Draft — {{ $now.format('DD MMM YYYY') }}",
+        "emailType": "text",
+        "message": "=Hi Marketing Team,\n\nKamau has reviewed and approved this week's \nNairobi Nexus newsletter draft. \n\nIt is ready for your final review before publishing.\n\n---------------------------------------\n{{ $('Chief Editor').item.json.output.newsletter_intro }}\n---------------------------------------\n\nDRAFT DETAILS\n-------------\nWord Count:      {{ $('Chief Editor').item.json.output.word_count }}\nSources Used:    {{ $('Chief Editor').item.json.output.sources_used }}\nSlang Used:      {{ $('Chief Editor').item.json.output.slang_used }}\nModel Used:      {{ $('Chief Editor').item.json.output.model }}\nGenerated At:    {{ $('Chief Editor').item.json.output.generated_at }}\nApproved Status:    {{ $('Approval by Tech Editor').item.json.data.approved }} \n\nPlease reply with any edits or give the \ngreen light to publish.\n\nRegards,\nKamau\nNairobi Daily Content Lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2400,
+        752
+      ],
+      "id": "c5ffa105-2286-4ec8-aa26-541a93086948",
+      "name": "Send to Marketing Team",
+      "webhookId": "0aa0a81e-4ef7-4422-826b-9495a1230167",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "jx21msO9A4kXTldt",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-5-20250929",
+          "cachedResultName": "Claude Sonnet 4.5"
+        },
+        "options": {
+          "maxTokensToSample": 2000,
+          "temperature": 0.5
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        1504,
+        1008
+      ],
+      "id": "fa05de67-b3d8-428d-972c-1db8ac161de2",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "gBW0C1mgXfRZVMjn",
+          "name": "Anthropic account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request-TechCabal",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request-Business Daily",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request-The Star",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request-Standard",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request-Kenyan WallStreet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request-TechCabal": {
+      "main": [
+        [
+          {
+            "node": "Trim HTML-TechCabal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Summarize TechCabal",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Summarize TechCabal",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize TechCabal",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request-Business Daily": {
+      "main": [
+        [
+          {
+            "node": "Trim HTML-Business Daily",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize Business Daily",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "Summarize Business Daily",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Summarize Business Daily",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request-The Star": {
+      "main": [
+        [
+          {
+            "node": "Trim HTML-The Star",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request-Standard": {
+      "main": [
+        [
+          {
+            "node": "Trim HTM-Standard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request-Kenyan WallStreet": {
+      "main": [
+        [
+          {
+            "node": "Trim HTML-KWS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize The Star",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Summarize The Star",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Summarize The Star",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Summarize Standard",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize Standard",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory3": {
+      "ai_memory": [
+        [
+          {
+            "node": "Summarize Standard",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize Kenyan WallStreet",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Summarize Kenyan WallStreet",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory4": {
+      "ai_memory": [
+        [
+          {
+            "node": "Summarize Kenyan WallStreet",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trim HTM-Standard": {
+      "main": [
+        [
+          {
+            "node": "Summarize Standard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trim HTML-The Star": {
+      "main": [
+        [
+          {
+            "node": "Summarize The Star",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trim HTML-Business Daily": {
+      "main": [
+        [
+          {
+            "node": "Summarize Business Daily",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trim HTML-TechCabal": {
+      "main": [
+        [
+          {
+            "node": "Summarize TechCabal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize TechCabal": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Business Daily": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Summarize The Star": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Summarize Standard": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Summarize Kenyan WallStreet": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Trim HTML-KWS": {
+      "main": [
+        [
+          {
+            "node": "Summarize Kenyan WallStreet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Chief Editor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Chief Editor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser5": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Chief Editor",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory5": {
+      "ai_memory": [
+        [
+          {
+            "node": "Chief Editor",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chief Editor": {
+      "main": [
+        [
+          {
+            "node": "Approval by Tech Editor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approval by Tech Editor": {
+      "main": [
+        [
+          {
+            "node": "Log Approved Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Approved Draft": {
+      "main": [
+        [
+          {
+            "node": "Send to Marketing Team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Chief Editor",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "1e1145af-82ea-4680-b809-32b066bf04d8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fe150a79434daf2e0ddfbedbfe9754306061a72c8f7f5ddeb6d95267b0e69e06"
+  },
+  "id": "bZ5VpsRfzl8DVNxC",
+  "tags": []
+}
